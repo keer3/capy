@@ -4,20 +4,23 @@ const UserCtrl = null;
 
 const login = (req, res) => {
 
+    // console.log('req', req.body)
     // const username = req.body.username;
     // const password = req.body.username;
 
-    // // 获取用户
-    // const user = UserModel.findOne({
-    //   where: {
-    //     username,
-    //     password
-    //   }
-    // })
+    var username = 'admin'
+    var password = 'admin'
 
-    console.log('result')
-
-    res.send('respond with a resource');
+    // 获取用户
+    const user = UserModel.findOne({
+        where: {
+            username,
+            password
+        }
+    }).then((ret) => {
+        console.log('res', ret.dataValues)
+        res.send(ret.dataValues);
+    })
 }
 
 module.exports = {
