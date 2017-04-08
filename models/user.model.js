@@ -8,6 +8,11 @@ module.exports = function(sequelize, DataTypes) {
 			primaryKey: true,
 			autoIncrement: true
 		},
+		phone: {
+			type: DataTypes.STRING(15),
+			allowNull: false,
+			defaultValue: ""
+		},
 		username: {
 			type: DataTypes.STRING(20),
 			allowNull: true
@@ -16,13 +21,13 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(30),
 			allowNull: false
 		},
+		email: {
+			type: DataTypes.STRING(30),
+			allowNull: true
+		},
 		realname: {
 			type: DataTypes.STRING(20),
 			allowNull: true
-		},
-		phone: {
-			type: DataTypes.STRING(15),
-			allowNull: false
 		},
 		create_time: {
 			type: DataTypes.DATE,

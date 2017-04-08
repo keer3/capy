@@ -238,7 +238,47 @@ const changePsd = async(req, res) => {
             }
         })
 
-        if(!result) {
+        if (!result) {
+            Response.error(res, 500, '修改失败，请重试')
+            return
+        }
+        Response.success(res)
+    } catch (error) {
+        Response.error(res, 500, error)
+    }
+}
+
+// 修改用户信息
+const updateUserInfo = async(req, res) => {
+    try {
+        req.checkBody('phone', '手机号不能为空').notEmpty()
+        req.checkBody('email', '邮箱不能为空').notEmpty()
+
+        // 检查参数
+        var result = await req.getValidationResult()
+        if (!result.isEmpty()) {
+            Response.error(res, 500, Util.inspect(result.array()))
+            return
+        }
+
+        const {
+            username,
+            phone,
+            email,
+            realname
+        } = req.body
+
+        result = UserModel.update({
+            username,
+            realname,
+            email
+        }, {
+            where: {
+                phone
+            }
+        })
+
+        if (!result) {
             Response.error(res, 500, '修改失败，请重试')
             return
         }
@@ -254,5 +294,6 @@ module.exports = {
     logout,
     code,
     findUserByPhone,
-    changePsd
+    changePsd,
+    updateUserInfo
 }
