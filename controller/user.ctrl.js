@@ -62,7 +62,7 @@ const reg = async(req, res) => {
         // 检查参数
         var result = await req.getValidationResult()
         if (!result.isEmpty()) {
-            Response.error(res, 500, util.inspect(result.array()))
+            Response.error(res, 500, Util.inspect(result.array()))
             return
         }
 
@@ -152,7 +152,7 @@ const code = async(req, res) => {
 
         // 保存验证码信息
         req.session.codeSession = {
-            code: '123456',
+            code,
             time: new Moment()
         }
 
@@ -192,10 +192,67 @@ const findUserByPhone = async(req, res) => {
     }
 }
 
+// 修改密码
+const changePsd = async(req, res) => {
+    try {
+        req.checkBody('phone', '手机号不能为空').notEmpty()
+        req.checkBody('oldPassword', '密码不能为空').notEmpty()
+        req.checkBody('newPassword', '新密码不能为空').notEmpty()
+        req.checkBody('code', '验证码不能为空').notEmpty()
+        // 检查参数
+        var result = await req.getValidationResult()
+        if (!result.isEmpty()) {
+            Response.error(res, 500, Util.inspect(result.array()))
+            return
+        }
+
+        // 判断验证码是否失效
+        const codeSession = req.session.codeSession
+        if (!new Moment().isBetween(codeSession.time, new Moment(codeSession.time).add(30, 'minutes')) || code !== codeSession.code) {
+            Response.error(res, 500, '验证码错误')
+            return
+        }
+
+        const {
+            phone,
+            oldPassword,
+            newPassword
+        } = req.body
+
+        const user = await UserModel.findOne({
+            where: {
+                phone
+            }
+        })
+
+        if (user.get('password') !== oldPassword) {
+            Response.error(res, 500, '密码错误')
+            return
+        }
+
+        result = UserModel.update({
+            password: newPassword
+        }, {
+            where: {
+                phone
+            }
+        })
+
+        if(!result) {
+            Response.error(res, 500, '修改失败，请重试')
+            return
+        }
+        Response.success(res)
+    } catch (error) {
+        Response.error(res, 500, error)
+    }
+}
+
 module.exports = {
     login,
     reg,
     logout,
     code,
-    findUserByPhone
+    findUserByPhone,
+    changePsd
 }

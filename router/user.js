@@ -13,4 +13,6 @@ router.get('/code', UserCtrl.code)
 
 router.get('/findUser', UserCtrl.findUserByPhone)
 
+router.post('/changePsd', UserCtrl.changePsd)
+
 module.exports = router
