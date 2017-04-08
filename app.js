@@ -7,8 +7,17 @@ const bodyParser = require('body-parser')
 const expressValidator = require('express-validator')
 const app = express()
 const routes = require('./router')
+const session = require('express-session')
 
-app.use(expressValidator())
+app.use(expressValidator()) // 验证规则中间件
+
+app.use(session({
+  secret: 'CAPY PROJECT',
+  cookie: {
+    maxAge: 60 * 1000 * 30,
+    rolling: true
+  }
+}))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))

@@ -5,9 +5,9 @@ const UserCtrl = require('../controller/user.ctrl')
 
 router.post('/login', UserCtrl.login)
 
-router.post('/reg', function (req, res, next) {
-  res.send('111' + req.body.user)
-})
+router.post('/reg', UserCtrl.reg)
+
+router.get('/code', UserCtrl.code)
 
 router.get('/findUser', function (req, res, next) {
   res.send('findUser')
