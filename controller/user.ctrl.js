@@ -59,34 +59,51 @@ const login = async(req, res) => {
 const reg = async(req, res) => {
     try {
         req.checkBody('phone', '手机号不能为空').notEmpty()
-
+        req.checkBody('password', '密码不能为空').notEmpty()
+        req.checkBody('code', '验证码不能为空').notEmpty()
         // 检查参数
-        const result = await req.getValidationResult()
+        var result = await req.getValidationResult()
         if (!result.isEmpty()) {
             Response.error(res, 500, util.inspect(result.array()))
             return
         }
 
         const phone = req.body.phone
+        const password = req.body.password
+        const code = req.body.code
 
-        const user = await UserModel.find({
+        // 判断用户是否存在
+        const userExist = await UserModel.find({
             where: {
                 phone
             }
         })
-
-        if (user) {
+        if (userExist) {
             Response.error(res, 500, '用户已存在')
             return
         }
 
+        // 判断验证码是否失效
+        const codeSession = req.session.codeSession
+        if (!new Moment().isBetween(codeSession.time, new Moment(codeSession.time).add(30, 'minutes')) || code !== codeSession.code) {
+            Response.error(res, 500, '验证码错误')
+            return
+        }
 
+        // 添加用户
+        result = await UserModel.create({
+            phone,
+            password
+        })
 
-
-
-
-        res.send('end')
-
+        if (result) {
+            req.session.user = {
+                phone
+            }
+            Response.success(res)
+            return
+        }
+        Response.error(res, 500, '注册失败，请重试')
     } catch (error) {
         Response.error(res, 500, error)
     }
@@ -110,7 +127,7 @@ const code = async(req, res) => {
             Response.error(res, 500, Util.inspect(result.array()))
             return
         }
-        
+
         const phone = req.query.phone
         const code = randomNum(6)
         const messageParam = {
@@ -121,7 +138,7 @@ const code = async(req, res) => {
             rec_num: phone,
             sms_template_code: AlidayuConf.smsTemplateCode
         }
-        console.log(messageParam)
+
         // 调用阿里大于接口发送短信
         AlidayuApp.smsSend(messageParam, (err, res) => {
             if (!err) {
@@ -131,7 +148,7 @@ const code = async(req, res) => {
 
         // 保存验证码信息
         req.session.codeSession = {
-            code,
+            code: '123456',
             time: new Moment()
         }
 
