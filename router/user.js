@@ -9,8 +9,6 @@ router.post('/reg', UserCtrl.reg)
 
 router.get('/code', UserCtrl.code)
 
-router.get('/findUser', function (req, res, next) {
-  res.send('findUser')
-})
+router.get('/findUser', UserCtrl.findUserByPhone)
 
 module.exports = router

@@ -53,8 +53,6 @@ const login = async(req, res) => {
     }
 }
 
-
-
 // 用户注册
 const reg = async(req, res) => {
     try {
@@ -158,8 +156,39 @@ const code = async(req, res) => {
     }
 }
 
+// 根据手机号查找用户
+const findUserByPhone = async(req, res) => {
+    try {
+        req.checkQuery('phone', '手机号不能为空').notEmpty()
+
+        // 检查参数
+        const result = await req.getValidationResult()
+        if (!result.isEmpty()) {
+            Response.error(res, 500, Util.inspect(result.array()))
+            return
+        }
+
+        const phone = req.query.phone
+        const user = await UserModel.findOne({
+            attributes: ['username', 'phone'],
+            where: {
+                phone
+            }
+        })
+
+        if (!user) {
+            Response.error(res, 500, '用户不存在')
+            return
+        }
+        Response.success(res, user.toJSON())
+    } catch (error) {
+        Response.error(res, 500, error)
+    }
+}
+
 module.exports = {
     login,
     reg,
-    code
+    code,
+    findUserByPhone
 }
