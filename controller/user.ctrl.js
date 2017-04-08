@@ -107,6 +107,12 @@ const reg = async(req, res) => {
     }
 }
 
+// 注销用户
+const logout = async(req, res) => {
+    req.session.user = null
+    Response.success(res)
+}
+
 // 生成六位随机数
 const randomNum = (length) => {
     return new Array(length).fill(0).map((x) => {
@@ -189,6 +195,7 @@ const findUserByPhone = async(req, res) => {
 module.exports = {
     login,
     reg,
+    logout,
     code,
     findUserByPhone
 }
