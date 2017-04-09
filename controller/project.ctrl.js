@@ -93,7 +93,40 @@ const findUserListByProject = async(req, res) => {
   }
 }
 
+// 添加项目协作者
+const addUserToProject = async(req, res) => {
+  try {
+    req.checkBody('projectId', '项目ID不能为空').notEmpty()
+    req.checkBody('userId', '用户ID不能为空').notEmpty()
+
+    // 检查参数
+    const result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const projectId = req.body.projectId
+    const userId = req.body.userId
+
+    const projectUser = await ProjectUserModel.create({
+      user_id: userId,
+      project_id: projectId
+    })
+
+    if (!projectUser) {
+      Response.error(res, 500, '添加失败，请重试')
+      return
+    }
+
+    Response.success(res)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
 module.exports = {
   findProjectListByUser,
-  findUserListByProject
+  findUserListByProject,
+  addUserToProject
 }

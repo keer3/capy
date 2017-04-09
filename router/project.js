@@ -7,4 +7,6 @@ router.get('/findProjectByUser', ProjectCtrl.findProjectListByUser)
 
 router.get('/findUserByProject', ProjectCtrl.findUserListByProject)
 
+router.post('/addUserToProject', ProjectCtrl.addUserToProject)
+
 module.exports = router
