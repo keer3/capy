@@ -237,7 +237,7 @@ const addProject = async(req, res) => {
       type,
       create_userId: createUserId
     }
-
+    console.log(projectParam)
     result = ProjectModel.create(projectParam)
 
     if (!result) {

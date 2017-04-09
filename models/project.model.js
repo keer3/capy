@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		name: {
 			type: DataTypes.STRING(20),
-			allowNull: true,
+			allowNull: false,
 			defaultValue: ""
 		},
 		dec: {
@@ -33,6 +33,10 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.TIME,
 			allowNull: true,
 			defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+		},
+		create_userId: {
+			type: DataTypes.INTEGER(10),
+			allowNull: true
 		}
 	}, {
 		tableName: 'project',
