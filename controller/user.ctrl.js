@@ -37,10 +37,13 @@ const login = async(req, res) => {
             if (user.get('password') === password) {
                 // 储存登陆信息
                 req.session.user = {
+                    userId: user.get('id'),
                     phone,
-                    username: user.get('username')
+                    username: user.get('username'),
+                    realname: user.get('realname'),
+                    email: user.get('email')
                 }
-                Response.success(res)
+                Response.success(res, req.session.user)
             } else {
                 Response.error(res, 500, '手机号密码错误')
             }
@@ -176,7 +179,7 @@ const findUserByPhone = async(req, res) => {
 
         const phone = req.query.phone
         const user = await UserModel.findOne({
-            attributes: ['username', 'phone'],
+            attributes: ['username', 'phone', 'email', 'realname'],
             where: {
                 phone
             }
