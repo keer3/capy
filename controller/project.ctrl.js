@@ -237,9 +237,8 @@ const addProject = async(req, res) => {
       type,
       create_userId: createUserId
     }
-    console.log(projectParam)
-    result = ProjectModel.create(projectParam)
 
+    result = ProjectModel.create(projectParam)
     if (!result) {
       Response.error(res, 500, '添加失败，请重试')
       return
