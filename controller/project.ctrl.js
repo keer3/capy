@@ -162,9 +162,57 @@ const getProjectInfo = async(req, res) => {
   }
 }
 
+// 修改项目详情
+const updateProjectInfo = async(req, res) => {
+  try {
+    req.checkBody('projectId', '项目ID不能为空').notEmpty()
+    req.checkBody('name', '项目名不能为空').notEmpty()
+    req.checkBody('createUserId', '创建者ID不能为空').notEmpty()
+
+    // 检查参数
+    var result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const {
+      projectId,
+      name,
+      dec,
+      version,
+      type,
+      createUserId
+    } = req.body
+
+    const projectParam = {
+      name,
+      dec,
+      version,
+      type,
+      create_userId: createUserId
+    }
+
+    result = ProjectModel.update(projectParam, {
+      where: {
+        id: projectId
+      }
+    })
+
+    if (!result) {
+      Response.error(res, 500, '修改失败，请重试')
+      return
+    }
+    Response.success(res)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
 module.exports = {
   findProjectListByUser,
   findUserListByProject,
   addUserToProject,
-  getProjectInfo
+  getProjectInfo,
+  updateProjectInfo
 }
