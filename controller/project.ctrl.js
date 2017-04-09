@@ -125,8 +125,46 @@ const addUserToProject = async(req, res) => {
   }
 }
 
+// 查看项目详情
+const getProjectInfo = async(req, res) => {
+  try {
+    req.checkQuery('projectId', '项目ID不能为空').notEmpty()
+    // 检查参数
+    const result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const projectId = req.query.projectId
+    const project = await ProjectModel.findOne({
+      where: {
+        id: projectId
+      }
+    })
+
+    const users = await ProjectUserModel.count({
+      where: {
+        project_id: projectId
+      }
+    })
+
+    var projectInfo = project.get()
+    projectInfo.users = users
+
+    if (!projectInfo) {
+      Response.error(res, 500, '未找到该项目')
+      return
+    }
+    Response.success(res, projectInfo)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
 module.exports = {
   findProjectListByUser,
   findUserListByProject,
-  addUserToProject
+  addUserToProject,
+  getProjectInfo
 }
