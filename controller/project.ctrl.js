@@ -209,10 +209,52 @@ const updateProjectInfo = async(req, res) => {
   }
 }
 
+// 添加项目
+const addProject = async(req, res) => {
+  try {
+    req.checkBody('name', '项目名不能为空').notEmpty()
+    req.checkBody('createUserId', '创建者ID不能为空').notEmpty()
+
+    // 检查参数
+    var result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const {
+      name,
+      dec,
+      version,
+      type,
+      createUserId
+    } = req.body
+
+    const projectParam = {
+      name,
+      dec,
+      version,
+      type,
+      create_userId: createUserId
+    }
+
+    result = ProjectModel.create(projectParam)
+
+    if (!result) {
+      Response.error(res, 500, '添加失败，请重试')
+      return
+    }
+    Response.success(res)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
 module.exports = {
   findProjectListByUser,
   findUserListByProject,
   addUserToProject,
   getProjectInfo,
-  updateProjectInfo
+  updateProjectInfo,
+  addProject
 }

@@ -13,4 +13,6 @@ router.get('/getProjectInfo', ProjectCtrl.getProjectInfo)
 
 router.post('/updateProjectInfo', ProjectCtrl.updateProjectInfo)
 
+router.post('/addProject', ProjectCtrl.addProject)
+
 module.exports = router
