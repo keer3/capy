@@ -249,11 +249,37 @@ const addProject = async(req, res) => {
   }
 }
 
+// 删除项目
+const delProject = async(req, res) => {
+  try {
+    req.checkBody('projectId', '项目ID不能为空').notEmpty()
+
+    // 检查参数
+    var result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const projectId = req.body.projectId
+    await ProjectModel.destroy({
+      where: {
+        id: projectId
+      }
+    })
+
+    Response.success(res)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
 module.exports = {
   findProjectListByUser,
   findUserListByProject,
   addUserToProject,
   getProjectInfo,
   updateProjectInfo,
-  addProject
+  addProject,
+  delProject
 }

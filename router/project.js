@@ -15,4 +15,6 @@ router.post('/updateProjectInfo', ProjectCtrl.updateProjectInfo)
 
 router.post('/addProject', ProjectCtrl.addProject)
 
+router.post('/delProject', ProjectCtrl.delProject)
+
 module.exports = router
