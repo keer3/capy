@@ -25,7 +25,7 @@ const addGroup = async(req, res) => {
       project_id: projectId
     })
 
-    if (!group){
+    if (!group) {
       Response.error(res, 500, '创建失败，请重试')
       return
     }
@@ -35,6 +35,31 @@ const addGroup = async(req, res) => {
   }
 }
 
+// 删除接口分组
+const delGroup = async(req, res) => {
+  try {
+    req.checkBody('groupId', '接口分组ID不能为空').notEmpty()
+
+    // 检查参数
+    const result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const groupId = req.body.groupId
+    await ApiGroupModel.destroy({
+      where: {
+        id: groupId
+      }
+    })
+    Response.success(res)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
 module.exports = {
-  addGroup
+  addGroup,
+  delGroup
 }

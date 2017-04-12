@@ -5,4 +5,6 @@ const ApiGroupCtrl = require('../controller/apiGroup.ctrl')
 
 router.post('/add', ApiGroupCtrl.addGroup)
 
+router.post('/del', ApiGroupCtrl.delGroup)
+
 module.exports = router
