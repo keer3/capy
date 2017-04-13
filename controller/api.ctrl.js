@@ -31,7 +31,36 @@ const getAllApi = async(req, res) => {
       }
     })
 
-    if(!apiList) {
+    if (!apiList) {
+      Response.error(res, 500, '没有接口')
+      return
+    }
+    Response.success(res, apiList)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
+// 查看分组下的所有列表
+const getApiByGroup = async(req, res) => {
+  try {
+    req.checkQuery('groupId', '分组ID不能为空').notEmpty()
+
+    // 检查参数
+    const result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const groupId = req.query.groupId
+    const apiList = await ApiModel.findAll({
+      where: {
+        group_id: groupId
+      }
+    })
+
+    if (!apiList) {
       Response.error(res, 500, '没有接口')
       return
     }
@@ -43,5 +72,6 @@ const getAllApi = async(req, res) => {
 
 module.exports = {
   addApi,
-  getAllApi
+  getAllApi,
+  getApiByGroup
 }
