@@ -11,22 +11,34 @@ module.exports = function(sequelize, DataTypes) {
 		status: {
 			type: DataTypes.STRING(20),
 			allowNull: true,
-			defaultValue: ""
+			defaultValue: ''
 		},
 		url: {
 			type: DataTypes.STRING(100),
 			allowNull: true,
-			defaultValue: ""
+			defaultValue: ''
 		},
 		type: {
 			type: DataTypes.STRING(10),
 			allowNull: false,
-			defaultValue: ""
+			defaultValue: ''
 		},
 		dec: {
 			type: DataTypes.STRING(100),
 			allowNull: true,
-			defaultValue: ""
+			defaultValue: ''
+		},
+		protocol: {
+			type: DataTypes.STRING(20),
+			allowNull: true
+		},
+		project_id: {
+			type: DataTypes.INTEGER(10),
+			allowNull: true
+		},
+		group_id: {
+			type: DataTypes.INTEGER(10),
+			allowNull: true
 		},
 		create_time: {
 			type: DataTypes.DATE,
@@ -35,26 +47,15 @@ module.exports = function(sequelize, DataTypes) {
 		update_time: {
 			type: DataTypes.TIME,
 			allowNull: true,
-			defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+			defaultValue: 'sequelize.literal(\'CURRENT_TIMESTAMP\')'
 		},
-		create_user: {
-			type: DataTypes.STRING(255),
-			allowNull: true,
-			defaultValue: ""
-		},
-		update_user: {
-			type: DataTypes.STRING(0),
-			allowNull: true,
-			defaultValue: ""
-		},
-		group_id: {
+		create_userId: {
 			type: DataTypes.INTEGER(10),
 			allowNull: true
 		},
-		protocol: {
-			type: DataTypes.STRING(20),
-			allowNull: true,
-			defaultValue: ""
+		update_userId: {
+			type: DataTypes.INTEGER(10),
+			allowNull: true
 		}
 	}, {
 		tableName: 'api',

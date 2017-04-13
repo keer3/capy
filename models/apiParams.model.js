@@ -11,27 +11,27 @@ module.exports = function(sequelize, DataTypes) {
 		name: {
 			type: DataTypes.STRING(20),
 			allowNull: false,
-			defaultValue: ""
+			defaultValue: ''
 		},
 		type: {
 			type: DataTypes.STRING(20),
 			allowNull: true,
-			defaultValue: ""
+			defaultValue: ''
 		},
 		example: {
 			type: DataTypes.STRING(100),
 			allowNull: true,
-			defaultValue: ""
+			defaultValue: ''
 		},
 		remark: {
 			type: DataTypes.STRING(100),
 			allowNull: true,
-			defaultValue: ""
+			defaultValue: ''
 		},
 		value: {
 			type: DataTypes.STRING(200),
 			allowNull: true,
-			defaultValue: ""
+			defaultValue: ''
 		}
 	}, {
 		tableName: 'api_params',

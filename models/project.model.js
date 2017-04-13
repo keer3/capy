@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
 		name: {
 			type: DataTypes.STRING(20),
 			allowNull: false,
-			defaultValue: ""
+			defaultValue: ''
 		},
 		dec: {
 			type: DataTypes.STRING(200),
@@ -32,7 +32,7 @@ module.exports = function(sequelize, DataTypes) {
 		update_time: {
 			type: DataTypes.TIME,
 			allowNull: true,
-			defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+			defaultValue: 'sequelize.literal(\'CURRENT_TIMESTAMP\')'
 		},
 		create_userId: {
 			type: DataTypes.INTEGER(10),

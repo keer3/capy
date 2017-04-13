@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
 		name: {
 			type: DataTypes.STRING(100),
 			allowNull: false,
-			defaultValue: ""
+			defaultValue: ''
 		},
 		required: {
 			type: DataTypes.INTEGER(2),
@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
 		value: {
 			type: DataTypes.STRING(200),
 			allowNull: true,
-			defaultValue: ""
+			defaultValue: ''
 		},
 		success_return: {
 			type: DataTypes.TEXT,
