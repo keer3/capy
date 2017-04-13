@@ -83,7 +83,7 @@ const renameGroup = async(req, res) => {
       }
     })
 
-    if(!group) {
+    if (!group) {
       Response.error(res, 500, '修改失败，请重试')
       return
     }
@@ -93,8 +93,39 @@ const renameGroup = async(req, res) => {
   }
 }
 
+// 查看项目接口分组列表
+const getGroupList = async(req, res) => {
+  try {
+    req.checkQuery('projectId', '项目ID不能为空').notEmpty()
+
+    // 检查参数
+    const result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const projectId = req.query.projectId
+    const projectList = await ApiGroupModel.findAll({
+      where: {
+        project_id: projectId
+      }
+    })
+
+    if(!projectList) {
+      Response.error(res, 500, '暂时没有分组信息')
+      return
+    }
+    Response.success(res, projectList)
+
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
 module.exports = {
   addGroup,
   delGroup,
-  renameGroup
+  renameGroup,
+  getGroupList
 }

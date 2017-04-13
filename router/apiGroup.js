@@ -9,4 +9,6 @@ router.post('/del', ApiGroupCtrl.delGroup)
 
 router.post('/rename', ApiGroupCtrl.renameGroup)
 
+router.get('/list', ApiGroupCtrl.getGroupList)
+
 module.exports = router
