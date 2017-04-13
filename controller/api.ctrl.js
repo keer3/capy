@@ -155,8 +155,57 @@ const getApiByGroup = async(req, res) => {
   }
 }
 
+// 删除接口
+const delApi = async (req, res) => {
+  try {
+
+    req.checkBody('apiId', '接口ID不能为空').notEmpty()
+
+    // 检查参数
+    const result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const apiId = req.body.apiId
+    // 删除API基本信息
+    await ApiModel.destroy({
+      where: {
+        id: apiId
+      }
+    })
+
+    // 删除API请求头部信息
+    await ApiHeaderModel.destroy({
+      where: {
+        api_id: apiId
+      }
+    })
+
+    // 删除API请求参数信息
+    await ApiParamsModel.destroy({
+      where: {
+        api_id: apiId
+      }
+    })
+
+    // 删除API返回值信息
+    await ApiReturnModel.destroy({
+      where: {
+        api_id: apiId
+      }
+    })
+
+    Response.success(res)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
 module.exports = {
   addApi,
   getAllApi,
-  getApiByGroup
+  getApiByGroup,
+  delApi
 }
