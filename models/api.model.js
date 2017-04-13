@@ -13,6 +13,10 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true,
 			defaultValue: ''
 		},
+		name: {
+			type: DataTypes.STRING(100),
+			allowNull: true
+		},
 		url: {
 			type: DataTypes.STRING(100),
 			allowNull: true,
@@ -44,17 +48,20 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.DATE,
 			allowNull: true
 		},
-		update_time: {
-			type: DataTypes.TIME,
-			allowNull: true,
-			defaultValue: 'sequelize.literal(\'CURRENT_TIMESTAMP\')'
-		},
 		create_userId: {
 			type: DataTypes.INTEGER(10),
 			allowNull: true
 		},
 		update_userId: {
 			type: DataTypes.INTEGER(10),
+			allowNull: true
+		},
+		success_return: {
+			type: DataTypes.TEXT,
+			allowNull: true
+		},
+		error_return: {
+			type: DataTypes.TEXT,
 			allowNull: true
 		}
 	}, {

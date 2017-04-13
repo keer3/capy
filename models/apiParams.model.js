@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true,
 			defaultValue: ''
 		},
-		remark: {
+		dec: {
 			type: DataTypes.STRING(100),
 			allowNull: true,
 			defaultValue: ''
@@ -32,6 +32,18 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(200),
 			allowNull: true,
 			defaultValue: ''
+		},
+		must: {
+			type: DataTypes.INTEGER(2),
+			allowNull: true
+		},
+		limit: {
+			type: DataTypes.STRING(100),
+			allowNull: true
+		},
+		api_id: {
+			type: DataTypes.INTEGER(10),
+			allowNull: true
 		}
 	}, {
 		tableName: 'api_params',

@@ -13,7 +13,7 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: false,
 			defaultValue: ''
 		},
-		required: {
+		must: {
 			type: DataTypes.INTEGER(2),
 			allowNull: false
 		},
@@ -22,16 +22,12 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true,
 			defaultValue: ''
 		},
-		success_return: {
-			type: DataTypes.TEXT,
-			allowNull: true
-		},
-		error_return: {
-			type: DataTypes.STRING(0),
-			allowNull: true
-		},
 		api_id: {
 			type: DataTypes.INTEGER(10),
+			allowNull: true
+		},
+		dec: {
+			type: DataTypes.STRING(100),
 			allowNull: true
 		}
 	}, {
