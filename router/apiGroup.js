@@ -7,4 +7,6 @@ router.post('/add', ApiGroupCtrl.addGroup)
 
 router.post('/del', ApiGroupCtrl.delGroup)
 
+router.post('/rename', ApiGroupCtrl.renameGroup)
+
 module.exports = router

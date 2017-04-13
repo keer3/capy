@@ -1,7 +1,7 @@
 const MysqlConf = {
     host: 'localhost',
     username: 'root',
-    password: '4321Sun.',
+    password: '',
     port: 3306,
     database: 'capy'
 }
