@@ -1,14 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const ApiCtrl = require('../controller/api.ctrl')
 
-const userCtrl = require('../controller/user.ctrl')
+router.post('/addApi', ApiCtrl.addApi)
 
-router.get('/api', function(req, res, next) {
-  res.send('api');
-});
-
-router.get('/find', function(req, res, next) {
-  res.send('find');
-});
-
+router.get('/getAllApi', ApiCtrl.getAllApi)
 module.exports = router;
