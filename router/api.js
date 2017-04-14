@@ -12,4 +12,6 @@ router.post('/delApi', ApiCtrl.delApi)
 
 router.get('/getApiDetail', ApiCtrl.getApiDetail)
 
+router.post('/updateApi', ApiCtrl.updateApi)
+
 module.exports = router;

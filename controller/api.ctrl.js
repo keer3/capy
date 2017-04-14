@@ -156,7 +156,7 @@ const getApiByGroup = async(req, res) => {
 }
 
 // 删除接口
-const delApi = async (req, res) => {
+const delApi = async(req, res) => {
   try {
 
     req.checkBody('apiId', '接口ID不能为空').notEmpty()
@@ -249,10 +249,116 @@ const getApiDetail = async(req, res) => {
   }
 }
 
+// 更新接口
+const updateApi = async(req, res) => {
+  try {
+    req.checkBody('apiId', '接口ID不能为空').notEmpty()
+    req.checkBody('groupId', '分组ID不能为空').notEmpty()
+    req.checkBody('projectId', '项目ID不能为空').notEmpty()
+    req.checkBody('status', '状态不能为空').notEmpty()
+    req.checkBody('protocol', '请求协议不能为空').notEmpty()
+    req.checkBody('type', '请求方式不能为空').notEmpty()
+    req.checkBody('url', 'URL不能为空').notEmpty()
+    req.checkBody('name', '接口名称不能为空').notEmpty()
+    req.checkBody('userId', '更新者ID不能为空').notEmpty()
+
+
+    // 检查参数
+    var result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const {
+      apiId,
+      groupId,
+      projectId,
+      status,
+      protocol,
+      type,
+      url,
+      name,
+      dec,
+      successReturn,
+      errorReturn,
+      apiHeader,
+      apiParams,
+      apiReturn,
+      userId
+    } = req.body
+
+
+    await ApiModel.update({
+      group_id: groupId,
+      status,
+      name,
+      url,
+      type,
+      dec,
+      protocol,
+      project_id: projectId,
+      update_userId: userId,
+      success_return: successReturn,
+      error_return: errorReturn,
+    }, {
+      where: {
+        id: apiId
+      }
+    })
+
+    await ApiHeaderModel.destroy({
+      where: {
+        api_id: apiId
+      }
+    })
+
+    await ApiParamsModel.destroy({
+      where: {
+        api_id: apiId
+      }
+    })
+
+    await ApiReturnModel.destroy({
+      where: {
+        api_id: apiId
+      }
+    })
+
+    // 添加接口请求头
+    var headerList = JSON.parse(apiHeader)
+    headerList.forEach((header) => {
+      header.api_id = apiId
+    })
+    await ApiHeaderModel.bulkCreate(headerList)
+
+    // 添加接口请求参数
+    var paramsList = JSON.parse(apiParams)
+    paramsList.forEach((params) => {
+      params.api_id = apiId
+      params.value = JSON.stringify(params.value)
+    })
+    await ApiParamsModel.bulkCreate(paramsList)
+
+    // 添加接口返回结果
+    var returnList = JSON.parse(apiReturn)
+    returnList.forEach((ret) => {
+      ret.api_id = apiId
+      ret.value = JSON.stringify(ret.value)
+    })
+    await ApiReturnModel.bulkCreate(returnList)
+
+    Response.success(res)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
 module.exports = {
   addApi,
   getAllApi,
   getApiByGroup,
   delApi,
-  getApiDetail
+  getApiDetail,
+  updateApi
 }
