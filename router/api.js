@@ -10,4 +10,6 @@ router.get('/getApiByGroup', ApiCtrl.getApiByGroup)
 
 router.post('/delApi', ApiCtrl.delApi)
 
+router.get('/getApiDetail', ApiCtrl.getApiDetail)
+
 module.exports = router;

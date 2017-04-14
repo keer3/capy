@@ -203,9 +203,56 @@ const delApi = async (req, res) => {
   }
 }
 
+// 查看接口详情
+const getApiDetail = async(req, res) => {
+  try {
+    req.checkQuery('apiId', '接口ID不能为空').notEmpty()
+
+    // 检查参数
+    const result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const apiId = req.query.apiId
+
+    var api = await ApiModel.findOne({
+      where: {
+        id: apiId
+      }
+    })
+    api = api.toJSON()
+
+    const apiHeader = await ApiHeaderModel.findAll({
+      where: {
+        api_id: apiId
+      }
+    })
+    api.header = apiHeader
+
+    const apiParams = await ApiParamsModel.findAll({
+      api_id: apiId
+    })
+    api.params = apiParams
+
+    const apiReturn = await ApiReturnModel.findAll({
+      where: {
+        api_id: apiId
+      }
+    })
+    api.return = apiReturn
+
+    Response.success(res, api)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
 module.exports = {
   addApi,
   getAllApi,
   getApiByGroup,
-  delApi
+  delApi,
+  getApiDetail
 }
