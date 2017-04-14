@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.17)
 # Database: capy
-# Generation Time: 2017-04-13 11:23:57 +0000
+# Generation Time: 2017-04-14 11:10:46 +0000
 # ************************************************************
 
 
@@ -49,14 +49,13 @@ LOCK TABLES `api` WRITE;
 
 INSERT INTO `api` (`id`, `status`, `name`, `url`, `type`, `dec`, `protocol`, `project_id`, `group_id`, `create_time`, `update_time`, `create_userId`, `update_userId`, `success_return`, `error_return`)
 VALUES
-	(2,'1',NULL,'www.sunshumin.cn','post','得到用户姓名','http',1,2,'2017-04-13 12:44:33','2017-04-13 14:17:13',1,1,NULL,NULL),
-	(3,'1',NULL,'www.baidu.com','get','百度','https',1,2,NULL,'2017-04-13 14:17:16',1,1,NULL,NULL),
 	(5,'1','添加接口','http://localhost:8888/api/addApi','post','','https',1,3,NULL,'2017-04-13 15:30:10',2,NULL,NULL,NULL),
 	(7,'1','添加接口','http://localhost:8888/api/addApi','post','','https',1,3,NULL,'2017-04-13 16:39:58',2,NULL,NULL,NULL),
-	(8,'1','添加接口','http://localhost:8888/api/addApi','post','','https',1,3,NULL,'2017-04-13 18:18:08',2,NULL,NULL,NULL),
+	(8,'1','更新接口','http://localhost:8888/api/addApi','post','','https',1,1,NULL,'2017-04-14 19:09:29',2,2,NULL,NULL),
 	(9,'1','添加接口','http://localhost:8888/api/addApi','post','','https',1,3,NULL,'2017-04-13 18:19:05',2,NULL,NULL,NULL),
 	(10,'1','添加接口','http://localhost:8888/api/addApi','post','','https',1,3,NULL,'2017-04-13 18:22:31',2,NULL,NULL,NULL),
-	(11,'1','添加接口','http://localhost:8888/api/addApi','post','','https',1,3,NULL,'2017-04-13 18:23:30',2,NULL,NULL,NULL);
+	(11,'1','添加接口','http://localhost:8888/api/addApi','post','','https',1,3,NULL,'2017-04-13 18:23:30',2,NULL,NULL,NULL),
+	(12,'1','添加接口','http://localhost:8888/api/addApi','post','','https',1,3,NULL,'2017-04-14 19:06:58',2,NULL,NULL,NULL);
 
 /*!40000 ALTER TABLE `api` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -80,7 +79,6 @@ LOCK TABLES `api_group` WRITE;
 INSERT INTO `api_group` (`id`, `name`, `project_id`)
 VALUES
 	(1,'用户',1),
-	(2,'被子',1),
 	(3,'测试',1);
 
 /*!40000 ALTER TABLE `api_group` ENABLE KEYS */;
@@ -114,12 +112,7 @@ VALUES
 	(7,'accept-ranges','bytes',5),
 	(8,'accept-ranges','hello',5),
 	(9,'accept-ranges','bytes',5),
-	(10,'accept-ranges','hello',5),
-	(11,'accept-ranges','bytes',5),
-	(12,'accept-ranges','hello',5),
-	(13,'accept-ranges','bytes',5),
-	(14,'accept-ranges','hello',5),
-	(15,'accept-ranges','bytes',5),
+	(13,'accept-ranges','bytes',4),
 	(16,'accept-ranges','hello',5),
 	(17,'accept-ranges','bytes',5),
 	(18,'accept-ranges','hello',5),
@@ -163,14 +156,16 @@ VALUES
 	(56,'accept-ranges','hello',5),
 	(57,'accept-ranges','bytes',5),
 	(58,'accept-ranges','hello',5),
-	(59,'accept-ranges','bytes',8),
-	(60,'accept-ranges','hello',8),
 	(61,'accept-ranges','bytes',9),
 	(62,'accept-ranges','hello',9),
 	(63,'accept-ranges','bytes',10),
 	(64,'accept-ranges','hello',10),
 	(65,'accept-ranges','bytes',11),
-	(66,'accept-ranges','hello',11);
+	(66,'accept-ranges','hello',11),
+	(67,'accept-ranges','bytes',12),
+	(68,'accept-ranges','hello',12),
+	(75,'accept-ranges','bytes',8),
+	(76,'accept-ranges','hello',8);
 
 /*!40000 ALTER TABLE `api_header` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -202,12 +197,7 @@ VALUES
 	(1,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',5),
 	(2,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',5),
 	(3,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',5),
-	(4,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',5),
-	(5,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',5),
-	(6,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',5),
-	(7,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',5),
-	(8,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',5),
-	(9,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',5),
+	(6,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',4),
 	(10,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',5),
 	(11,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',5),
 	(12,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',5),
@@ -217,10 +207,11 @@ VALUES
 	(16,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',5),
 	(17,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',5),
 	(18,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',5),
-	(19,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',8),
 	(20,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',9),
 	(21,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',10),
-	(22,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',11);
+	(22,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',11),
+	(23,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',12),
+	(27,'username','string','admin','用户姓名','[{\"value\":1,\"dec\":\"错误的时候\"}]',1,'邮箱地址',8);
 
 /*!40000 ALTER TABLE `api_params` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -247,11 +238,10 @@ LOCK TABLES `api_return` WRITE;
 INSERT INTO `api_return` (`id`, `name`, `must`, `value`, `api_id`, `dec`)
 VALUES
 	(1,'username',1,'[{\"value\":1,\"dec\":\"错误的时候\"}]',5,'用户姓名'),
-	(2,'username',1,'[{\"value\":1,\"dec\":\"错误的时候\"}]',5,'用户姓名'),
-	(3,'username',1,'[{\"value\":1,\"dec\":\"错误的时候\"}]',8,'用户姓名'),
-	(4,'username',1,'[{\"value\":1,\"dec\":\"错误的时候\"}]',9,'用户姓名'),
 	(5,'username',1,'[{\"value\":1,\"dec\":\"错误的时候\"}]',10,'用户姓名'),
-	(6,'username',1,'[{\"value\":1,\"dec\":\"错误的时候\"}]',11,'用户姓名');
+	(6,'username',1,'[{\"value\":1,\"dec\":\"错误的时候\"}]',11,'用户姓名'),
+	(7,'username',1,'[{\"value\":1,\"dec\":\"错误的时候\"}]',12,'用户姓名'),
+	(11,'username',1,'[{\"value\":1,\"dec\":\"错误的时候\"}]',8,'用户姓名');
 
 /*!40000 ALTER TABLE `api_return` ENABLE KEYS */;
 UNLOCK TABLES;
