@@ -58,10 +58,53 @@ const delGroup = async(req, res) => {
       }
     })
 
-    // 删除分组下的所有接口
-    const apiIdList = await 
+    // 得到分组下的所有接口ID
+    const apiList = await ApiModel.findAll({
+      where: {
+        group_id: groupId
+      }
+    })
 
-    Response.success(res)
+    var apiIdList = []
+    for (var api of apiList) {
+      apiIdList.push(api.id)
+    }
+
+    // 删除分组下的所有接口
+    await ApiModel.destroy({
+      where: {
+        group_id: groupId
+      }
+    })
+
+    // 删除接口关联的请求头
+    await ApiHeaderModel.destroy({
+      where: {
+        api_id: {
+          $in: apiIdList
+        }
+      }
+    })
+
+    // 删除接口关联的请求参数
+    await ApiParamsModel.destroy({
+      where: {
+        api_id: {
+          $in: apiIdList
+        }
+      }
+    })
+
+    // 删除接口关联的返回结果
+    await APiReturnModel.destroy({
+      where: {
+        api_id: {
+          $in: apiIdList
+        }
+      }
+    })
+
+    Response.success(res, apiIdList)
   } catch (error) {
     Response.error(res, 500, error)
   }
