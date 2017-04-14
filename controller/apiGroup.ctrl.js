@@ -3,6 +3,10 @@ const Response = require('../utils/Response')
 const Util = require('util')
 
 const ApiGroupModel = Sequelize.import('../models/apiGroup.model')
+const ApiModel = Sequelize.import('../models/api.model')
+const ApiHeaderModel = Sequelize.import('../models/apiHeader.model')
+const ApiParamsModel = Sequelize.import('../models/apiParams.model')
+const APiReturnModel = Sequelize.import('../models/apiReturn.model')
 
 // 添加分组
 const addGroup = async(req, res) => {
@@ -53,6 +57,10 @@ const delGroup = async(req, res) => {
         id: groupId
       }
     })
+
+    // 删除分组下的所有接口
+    const apiIdList = await 
+
     Response.success(res)
   } catch (error) {
     Response.error(res, 500, error)
