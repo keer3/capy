@@ -20,16 +20,6 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.TEXT,
 			allowNull: true
 		},
-		update_time: {
-			type: DataTypes.TIME,
-			allowNull: true,
-			defaultValue: 'sequelize.literal(\'CURRENT_TIMESTAMP\')'
-		},
-		create_time: {
-			type: DataTypes.TIME,
-			allowNull: true,
-			defaultValue: 'sequelize.literal(\'CURRENT_TIMESTAMP\')'
-		},
 		project_id: {
 			type: DataTypes.INTEGER(10),
 			allowNull: true

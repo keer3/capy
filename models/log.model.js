@@ -32,11 +32,6 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true,
 			defaultValue: ''
 		},
-		time: {
-			type: DataTypes.TIME,
-			allowNull: true,
-			defaultValue: 'sequelize.literal(\'CURRENT_TIMESTAMP\')'
-		}
 	}, {
 		tableName: 'log',
 		timestamps: false

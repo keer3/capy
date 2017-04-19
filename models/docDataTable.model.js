@@ -19,11 +19,6 @@ module.exports = function(sequelize, DataTypes) {
 		dec: {
 			type: DataTypes.TEXT,
 			allowNull: true
-		},
-		create_time: {
-			type: DataTypes.TIME,
-			allowNull: true,
-			defaultValue: 'sequelize.literal(\'CURRENT_TIMESTAMP\')'
 		}
 	}, {
 		tableName: 'doc_data_table',
