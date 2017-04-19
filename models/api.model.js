@@ -48,6 +48,11 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.DATE,
 			allowNull: true
 		},
+		update_time: {
+			type: DataTypes.TIME,
+			allowNull: true,
+			defaultValue: 'sequelize.literal(\'CURRENT_TIMESTAMP\')'
+		},
 		create_userId: {
 			type: DataTypes.INTEGER(10),
 			allowNull: true
