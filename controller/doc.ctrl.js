@@ -40,6 +40,33 @@ const addDatabase = async(req, res) => {
   }
 }
 
+// 删除数据库
+const delDatabase = async(req, res) => {
+  try {
+    req.checkBody('databaseId', '数据库ID不能为空').notEmpty()
+
+    // 检查参数
+    const result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const databaseId = req.body.databaseId
+    await DocDatabaseModel.destroy({
+      where: {
+        id: databaseId
+      }
+    })
+
+    Response.success(res)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
+
 module.exports = {
-  addDatabase
+  addDatabase,
+  delDatabase
 }
