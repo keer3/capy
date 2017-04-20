@@ -65,6 +65,10 @@ const delDatabase = async(req, res) => {
   }
 }
 
+// 编辑数据库信息
+const updateDatabase = async(req, res) => {
+  
+}
 
 module.exports = {
   addDatabase,
