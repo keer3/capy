@@ -1,15 +1,22 @@
 {
-  "name": "capy",
+  "name": "electron-quick-start",
   "version": "1.0.0",
-  "description": "",
+  "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "dev": "electron ."
+    "start": "electron ."
   },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "electron": "^1.6.5"
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "~1.6.2"
   }
 }
