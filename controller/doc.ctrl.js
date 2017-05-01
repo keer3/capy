@@ -67,10 +67,48 @@ const delDatabase = async(req, res) => {
 
 // 编辑数据库信息
 const updateDatabase = async(req, res) => {
-  
+  try {
+    req.checkBody('name', '数据库名不能为空').notEmpty()
+    req.checkBody('projectId', '所属项目ID不能为空').notEmpty()
+    req.checkBody('dbId', '数据库ID不能为空').notEmpty()
+
+    // 检查参数
+    const result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const {
+      name,
+      version,
+      dec,
+      projectId,
+      dbId
+    } = req.body
+
+    const database = await DocDatabaseModel.update({
+      name,
+      version,
+      dec,
+      project_id: projectId
+    }, {
+      where: {
+        id: dbId
+      }
+    })
+    if (!database) {
+      Response.error(res, 500, '创建失败，请重试')
+      return
+    }
+    Response.success(res, database)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
 }
 
 module.exports = {
   addDatabase,
-  delDatabase
+  delDatabase,
+  updateDatabase
 }
