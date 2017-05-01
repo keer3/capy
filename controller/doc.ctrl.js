@@ -107,8 +107,37 @@ const updateDatabase = async(req, res) => {
   }
 }
 
+// 查找该项目下的数据库列表
+const listDatabase = async(req, res) => {
+  try {
+    req.checkQuery('projectId', '项目ID不能为空').notEmpty()
+
+    // 检查参数
+    const result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const project_id = req.query.projectId
+    const dbList = await DocDatabaseModel.findAll({
+      where: {
+        project_id
+      }
+    })
+    if (!dbList) {
+      Response.error(res, 500, '没有数据库信息')
+      return
+    }
+    Response.success(res, dbList)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
 module.exports = {
   addDatabase,
   delDatabase,
-  updateDatabase
+  updateDatabase,
+  listDatabase
 }
