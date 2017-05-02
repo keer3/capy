@@ -204,7 +204,7 @@ const updateTable = async(req, res) => {
     })
 
     if(!table) {
-      Response.error(res, 500, '添加失败，请重试！')
+      Response.error(res, 500, '更新失败，请重试！')
       return
     }
 
@@ -216,7 +216,27 @@ const updateTable = async(req, res) => {
 
 // 删除数据表
 const delTable = async(req, res) => {
+  try {
+    req.checkBody('tableId', '数据表ID不能为空').notEmpty()
 
+    // 检查参数
+    const result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const tableId = req.body.tableId
+    await DocTableModel.destroy({
+      where: {
+        id: tableId
+      }
+    })
+
+    Response.success(res)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
 }
 
 // 查看数据库下的数据表
