@@ -161,7 +161,7 @@ const addTable = async(req, res) => {
       dec
     })
 
-    if(!table) {
+    if (!table) {
       Response.error(res, 500, '添加失败，请重试！')
       return
     }
@@ -203,7 +203,7 @@ const updateTable = async(req, res) => {
       }
     })
 
-    if(!table) {
+    if (!table) {
       Response.error(res, 500, '更新失败，请重试！')
       return
     }
@@ -241,7 +241,31 @@ const delTable = async(req, res) => {
 
 // 查看数据库下的数据表
 const listTable = async(req, res) => {
+  try {
+    req.checkQuery('databaseId', '数据库ID不能为空').notEmpty()
 
+    // 检查参数
+    const result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const databaseId = req.query.databaseId
+    const tableList = await DocTableModel.findAll({
+      where: {
+        database_id: databaseId
+      }
+    })
+
+    if (!tableList) {
+      Response.error(res, 500, '暂无数据表信息！')
+      return
+    }
+    Response.success(res, tableList)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
 }
 
 module.exports = {

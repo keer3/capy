@@ -11,5 +11,6 @@ router.get('/listDB', DocCtrl.listDatabase)
 router.post('/addTable', DocCtrl.addTable)
 router.post('/updateTable', DocCtrl.updateTable)
 router.post('/delTable', DocCtrl.delTable)
+router.get('/listTable', DocCtrl.listTable)
 
 module.exports = router;
