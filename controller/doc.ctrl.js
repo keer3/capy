@@ -4,6 +4,7 @@ const Util = require('util')
 
 const DocDatabaseModel = Sequelize.import('../models/docDataDatabase.model')
 const DocTableModel = Sequelize.import('../models/docDataTable.model')
+const DocFieldModel = Sequelize.import('../models/docDataField.model')
 
 // 添加数据库
 const addDatabase = async(req, res) => {
@@ -268,6 +269,55 @@ const listTable = async(req, res) => {
   }
 }
 
+// 添加字段
+const addField = async(req, res) => {
+  try {
+    req.checkBody('tableId', '数据表ID不能为空').notEmpty()
+    req.checkBody('name', '字段名不能为空').notEmpty()
+    req.checkBody('type', '字段类型不能为空').notEmpty()
+    req.checkBody('length', '字段长度不能为空').notEmpty()
+
+    // 检查参数
+    const result = await req.getValidationResult()
+
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const {
+      tableId,
+      name,
+      type,
+      length,
+      primary,
+      must,
+      default_value,
+      dec
+    } = req.body
+
+    const field = await DocFieldModel.create({
+      table_id: tableId,
+      name,
+      type,
+      length,
+      primary,
+      must,
+      default_value,
+      dec
+    })
+
+    if(!field) {
+      Response.error(res, 500, '添加失败，请重试！')
+      return
+    }
+
+    Response.success(res, field)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
 module.exports = {
   addDatabase,
   delDatabase,
@@ -276,5 +326,6 @@ module.exports = {
   addTable,
   updateTable,
   delTable,
-  listTable
+  listTable,
+  addField
 }

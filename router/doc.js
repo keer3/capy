@@ -13,4 +13,6 @@ router.post('/updateTable', DocCtrl.updateTable)
 router.post('/delTable', DocCtrl.delTable)
 router.get('/listTable', DocCtrl.listTable)
 
+router.post('/addField', DocCtrl.addField)
+
 module.exports = router;
