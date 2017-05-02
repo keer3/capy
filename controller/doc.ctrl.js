@@ -3,6 +3,7 @@ const Response = require('../utils/Response')
 const Util = require('util')
 
 const DocDatabaseModel = Sequelize.import('../models/docDataDatabase.model')
+const DocTableModel = Sequelize.import('../models/docDataTable.model')
 
 // 添加数据库
 const addDatabase = async(req, res) => {
@@ -135,9 +136,64 @@ const listDatabase = async(req, res) => {
   }
 }
 
+// 添加数据表
+const addTable = async(req, res) => {
+  try {
+    req.checkBody('databaseId', '数据库ID不能为空').notEmpty()
+    req.checkBody('name', '表名不能为空').notEmpty()
+
+    // 检查参数
+    const result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const {
+      databaseId,
+      name,
+      dec
+    } = req.body
+
+    const table = await DocTableModel.create({
+      database_id: databaseId,
+      name,
+      dec
+    })
+
+    if(!table) {
+      Response.error(res, 500, '添加失败，请重试！')
+      return
+    }
+
+    Response.success(res, table)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
+// 编辑数据表
+const updateTable = async(req, res) => {
+
+}
+
+// 删除数据表
+const delTable = async(req, res) => {
+
+}
+
+// 查看数据库下的数据表
+const listTable = async(req, res) => {
+
+}
+
 module.exports = {
   addDatabase,
   delDatabase,
   updateDatabase,
-  listDatabase
+  listDatabase,
+  addTable,
+  updateTable,
+  delTable,
+  listTable
 }

@@ -8,4 +8,6 @@ router.post('/delDB', DocCtrl.delDatabase)
 router.post('/updateDB', DocCtrl.updateDatabase)
 router.get('/listDB', DocCtrl.listDatabase)
 
+router.post('/addTable', DocCtrl.addTable)
+
 module.exports = router;
