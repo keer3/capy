@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
 		phone: {
 			type: DataTypes.STRING(15),
 			allowNull: false,
-			defaultValue: ''
+			defaultValue: ""
 		},
 		username: {
 			type: DataTypes.STRING(20),

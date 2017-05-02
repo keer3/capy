@@ -11,12 +11,12 @@ module.exports = function(sequelize, DataTypes) {
 		type: {
 			type: DataTypes.STRING(20),
 			allowNull: true,
-			defaultValue: ''
+			defaultValue: ""
 		},
 		username: {
 			type: DataTypes.STRING(20),
 			allowNull: true,
-			defaultValue: ''
+			defaultValue: ""
 		},
 		project: {
 			type: DataTypes.INTEGER(10),
@@ -25,13 +25,18 @@ module.exports = function(sequelize, DataTypes) {
 		operation: {
 			type: DataTypes.STRING(20),
 			allowNull: true,
-			defaultValue: ''
+			defaultValue: ""
 		},
 		desc: {
 			type: DataTypes.STRING(200),
 			allowNull: true,
-			defaultValue: ''
+			defaultValue: ""
 		},
+		time: {
+			type: DataTypes.TIME,
+			allowNull: true,
+			defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+		}
 	}, {
 		tableName: 'log',
 		timestamps: false

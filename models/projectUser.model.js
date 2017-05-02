@@ -19,7 +19,7 @@ module.exports = function(sequelize, DataTypes) {
 		role: {
 			type: DataTypes.STRING(255),
 			allowNull: true,
-			defaultValue: ''
+			defaultValue: ""
 		}
 	}, {
 		tableName: 'project_user',

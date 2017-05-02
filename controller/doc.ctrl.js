@@ -292,7 +292,7 @@ const addField = async(req, res) => {
       length,
       primary,
       must,
-      default_value,
+      defaultValue,
       dec
     } = req.body
 
@@ -303,7 +303,7 @@ const addField = async(req, res) => {
       length,
       primary,
       must,
-      default_value,
+      default_value: defaultValue,
       dec
     })
 
@@ -318,6 +318,62 @@ const addField = async(req, res) => {
   }
 }
 
+// 编辑字段
+const updateField = async(req, res) => {
+  try {
+    req.checkBody('fieldId', '字段ID不能为空').notEmpty()
+    req.checkBody('tableId', '数据表ID不能为空').notEmpty()
+    req.checkBody('name', '字段名不能为空').notEmpty()
+    req.checkBody('type', '字段类型不能为空').notEmpty()
+    req.checkBody('length', '字段长度不能为空').notEmpty()
+
+    // 检查参数
+    const result = await req.getValidationResult()
+
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const {
+      fieldId,
+      tableId,
+      name,
+      type,
+      length,
+      primary,
+      must,
+      defaultValue,
+      dec
+    } = req.body
+
+    const field = await DocFieldModel.update({
+      table_id: tableId,
+      name,
+      type,
+      length,
+      primary,
+      must,
+      default_value: defaultValue,
+      dec
+    }, {
+      where: {
+        id: fieldId
+      }
+    })
+
+    if(!field) {
+      Response.error(res, 500, '更新失败，请重试！')
+      return
+    }
+
+    Response.success(res, field)
+
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
 module.exports = {
   addDatabase,
   delDatabase,
@@ -327,5 +383,6 @@ module.exports = {
   updateTable,
   delTable,
   listTable,
-  addField
+  addField,
+  updateField
 }

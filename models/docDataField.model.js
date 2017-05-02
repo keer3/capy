@@ -32,7 +32,7 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.INTEGER(2),
 			allowNull: true
 		},
-		default: {
+		default_value: {
 			type: DataTypes.STRING(50),
 			allowNull: true
 		},
