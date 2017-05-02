@@ -9,5 +9,6 @@ router.post('/updateDB', DocCtrl.updateDatabase)
 router.get('/listDB', DocCtrl.listDatabase)
 
 router.post('/addTable', DocCtrl.addTable)
+router.post('/updateTable', DocCtrl.updateTable)
 
 module.exports = router;

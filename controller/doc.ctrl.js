@@ -174,7 +174,44 @@ const addTable = async(req, res) => {
 
 // 编辑数据表
 const updateTable = async(req, res) => {
+  try {
+    req.checkBody('databaseId', '数据库ID不能为空').notEmpty()
+    req.checkBody('name', '表名不能为空').notEmpty()
+    req.checkBody('tableId', '数据表ID不能为空').notEmpty()
 
+    // 检查参数
+    const result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const {
+      databaseId,
+      name,
+      dec,
+      tableId
+    } = req.body
+
+    const table = await DocTableModel.update({
+      database_id: databaseId,
+      name,
+      dec
+    }, {
+      where: {
+        id: tableId
+      }
+    })
+
+    if(!table) {
+      Response.error(res, 500, '添加失败，请重试！')
+      return
+    }
+
+    Response.success(res, table)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
 }
 
 // 删除数据表
