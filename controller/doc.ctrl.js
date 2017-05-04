@@ -427,6 +427,36 @@ const detailField = async(req, res) => {
     Response.error(res, 500, error)
   }
 }
+
+// 查看表中的所有字段
+const listField = async(req, res) => {
+  try {
+    req.checkQuery('tableId', '数据表ID不能为空').notEmpty()
+
+    // 检查参数
+    const result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const tableId = req.query.tableId
+    const fieldList = await DocFieldModel.findAll({
+      where: {
+        table_id: tableId
+      }
+    })
+
+    if (!fieldList) {
+      Response.error(res, 500, '暂无字段信息！')
+      return
+    }
+    Response.success(res, fieldList)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
 module.exports = {
   addDatabase,
   delDatabase,
@@ -439,5 +469,6 @@ module.exports = {
   addField,
   updateField,
   delField,
-  detailField
+  detailField,
+  listField
 }

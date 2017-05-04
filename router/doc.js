@@ -17,5 +17,6 @@ router.post('/addField', DocCtrl.addField)
 router.post('/updateField', DocCtrl.updateField)
 router.post('/delField', DocCtrl.delField)
 router.get('/detailField', DocCtrl.detailField)
+router.get('/listField', DocCtrl.listField)
 
 module.exports = router;
