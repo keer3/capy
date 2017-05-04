@@ -374,6 +374,31 @@ const updateField = async(req, res) => {
   }
 }
 
+// 删除字段
+const delField = async(req, res) => {
+  try {
+    req.checkBody('fieldId', '字段ID不能为空').notEmpty()
+
+    // 检查参数
+    const result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const fieldId = req.body.fieldId
+    await DocFieldModel.destroy({
+      where: {
+        id: fieldId
+      }
+    })
+
+    Response.success(res)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
 module.exports = {
   addDatabase,
   delDatabase,
@@ -384,5 +409,6 @@ module.exports = {
   delTable,
   listTable,
   addField,
-  updateField
+  updateField,
+  delField
 }
