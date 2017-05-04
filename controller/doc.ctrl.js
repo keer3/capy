@@ -307,7 +307,7 @@ const addField = async(req, res) => {
       dec
     })
 
-    if(!field) {
+    if (!field) {
       Response.error(res, 500, '添加失败，请重试！')
       return
     }
@@ -362,7 +362,7 @@ const updateField = async(req, res) => {
       }
     })
 
-    if(!field) {
+    if (!field) {
       Response.error(res, 500, '更新失败，请重试！')
       return
     }
@@ -399,6 +399,34 @@ const delField = async(req, res) => {
   }
 }
 
+// 查看字段详情
+const detailField = async(req, res) => {
+  try {
+    req.checkQuery('fieldId', '字段ID不能为空').notEmpty()
+
+    // 检查参数
+    const result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const fieldId = req.query.fieldId
+    const field = await DocFieldModel.findOne({
+      where: {
+        id: fieldId
+      }
+    })
+
+    if (!field) {
+      Response.error(res, 500, '暂无字段信息！')
+      return
+    }
+    Response.success(res, field)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
 module.exports = {
   addDatabase,
   delDatabase,
@@ -410,5 +438,6 @@ module.exports = {
   listTable,
   addField,
   updateField,
-  delField
+  delField,
+  detailField
 }
