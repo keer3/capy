@@ -61,6 +61,32 @@ const delDatabase = async(req, res) => {
       }
     })
 
+    // 删除数据库下的所有数据表
+    await DocTableModel.destroy({
+      where: {
+        database_id: databaseId
+      }
+    })
+
+    // 得到所有数据表的ID
+    const tableList = await DocTableModel.findAll({
+      where: {
+        database_id: databaseId
+      }
+    })
+    let tableIdList = tableList.map((table) => {
+      return table.get('id')
+    })
+
+    // 删除数据表下的所有字段
+    await DocFieldModel.destroy({
+      where: {
+        table_id: {
+          $in: tableIdList
+        }
+      }
+    })
+
     Response.success(res)
   } catch (error) {
     Response.error(res, 500, error)
