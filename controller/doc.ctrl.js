@@ -234,6 +234,13 @@ const delTable = async(req, res) => {
       }
     })
 
+    // 删除数据表下的所有字段
+    await DocFieldModel.destroy({
+      where: {
+        table_id: tableId
+      }
+    })
+
     Response.success(res)
   } catch (error) {
     Response.error(res, 500, error)
