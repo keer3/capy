@@ -193,7 +193,7 @@ const updateProjectInfo = async(req, res) => {
       create_userId: createUserId
     }
 
-    result = ProjectModel.update(projectParam, {
+    result = await ProjectModel.update(projectParam, {
       where: {
         id: projectId
       }
@@ -238,12 +238,19 @@ const addProject = async(req, res) => {
       create_userId: createUserId
     }
 
-    result = ProjectModel.create(projectParam)
+    result = await ProjectModel.create(projectParam)
     if (!result) {
       Response.error(res, 500, '添加失败，请重试')
       return
     }
-    Response.success(res)
+
+    // 建立创建者和项目的关系
+    await ProjectUserModel.create({
+      user_id: createUserId,
+      project_id: result.id
+    })
+
+    Response.success(res, result)
   } catch (error) {
     Response.error(res, 500, error)
   }
