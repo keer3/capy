@@ -186,7 +186,6 @@ const updateProjectInfo = async(req, res) => {
   try {
     req.checkBody('projectId', '项目ID不能为空').notEmpty()
     req.checkBody('name', '项目名不能为空').notEmpty()
-    req.checkBody('createUserId', '创建者ID不能为空').notEmpty()
 
     // 检查参数
     var result = await req.getValidationResult()
@@ -208,8 +207,7 @@ const updateProjectInfo = async(req, res) => {
       name,
       dec,
       version,
-      type,
-      create_userId: createUserId
+      type
     }
 
     result = await ProjectModel.update(projectParam, {
