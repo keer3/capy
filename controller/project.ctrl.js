@@ -76,7 +76,7 @@ const findUserListByProject = async(req, res) => {
     }
 
     const userList = await UserModel.findAll({
-      attributes: ['username', 'phone', 'realname', 'email'],
+      attributes: ['id', 'username', 'phone', 'realname', 'email'],
       where: {
         id: {
           $in: userIdList
