@@ -5,6 +5,7 @@ const Util = require('util')
 const ProjectModel = Sequelize.import('../models/project.model')
 const UserModel = Sequelize.import('../models/user.model')
 const ProjectUserModel = Sequelize.import('../models/projectUser.model')
+const ApiModel = Sequelize.import('../models/api.model')
 
 // 查询用户拥有的项目
 const findProjectListByUser = async(req, res) => {
@@ -143,14 +144,32 @@ const getProjectInfo = async(req, res) => {
       }
     })
 
+    // 项目协作者人数
     const users = await ProjectUserModel.count({
       where: {
         project_id: projectId
       }
     })
 
+    // 项目所含接口数量
+    const apis = await ApiModel.count({
+      where: {
+        project_id: projectId
+      }
+    })
+
+    // 创建者姓名
+    const user = await UserModel.findOne({
+      attributes: ['username', 'phone'],
+      where: {
+        id: project.create_userId
+      }
+    })
+
     var projectInfo = project.get()
-    projectInfo.users = users
+    projectInfo.userCount = users
+    projectInfo.apiCount = apis
+    projectInfo.create_user = user.get()
 
     if (!projectInfo) {
       Response.error(res, 500, '未找到该项目')
