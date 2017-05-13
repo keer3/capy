@@ -269,9 +269,18 @@ const delProject = async(req, res) => {
     }
 
     const projectId = req.body.projectId
+
+    // 删除项目
     await ProjectModel.destroy({
       where: {
         id: projectId
+      }
+    })
+
+    // 删除项目与关联人员
+    await ProjectUserModel.destroy({
+      where: {
+        project_id: projectId
       }
     })
 
