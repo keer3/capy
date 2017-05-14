@@ -11,7 +11,7 @@ router.get('/logout', UserCtrl.logout)
 
 router.get('/code', UserCtrl.code)
 
-router.get('/findUser', UserCtrl.findUserByPhone)
+router.get('/findUser', UserCtrl.findUser)
 
 router.post('/changePsd', UserCtrl.changePsd)
 

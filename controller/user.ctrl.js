@@ -165,10 +165,11 @@ const code = async(req, res) => {
     }
 }
 
-// 根据手机号查找用户
-const findUserByPhone = async(req, res) => {
+// 查找用户
+const findUser = async(req, res) => {
     try {
-        req.checkQuery('phone', '手机号不能为空').notEmpty()
+        req.checkQuery('searchInput', '搜索内容不能为空').notEmpty()
+        req.checkQuery('searchType', '搜索类型不能为空').notEmpty()
 
         // 检查参数
         const result = await req.getValidationResult()
@@ -177,16 +178,35 @@ const findUserByPhone = async(req, res) => {
             return
         }
 
-        const phone = req.query.phone
-        const user = await UserModel.findOne({
-            attributes: ['username', 'phone', 'email', 'realname'],
-            where: {
-                phone
-            }
-        })
+        const searchInput = req.query.searchInput
+        const searchType = req.query.searchType
+
+        let user = {}
+        if (searchType === 'phone') {
+            user = await UserModel.findOne({
+                attributes: ['username', 'phone', 'email', 'realname'],
+                where: {
+                    phone: searchInput
+                }
+            })
+        } else if(searchType === 'email') {
+            user = await UserModel.findOne({
+                attributes: ['username', 'phone', 'email', 'realname'],
+                where: {
+                    email: searchInput
+                }
+            })
+        } else {
+            user = await UserModel.findOne({
+                attributes: ['username', 'phone', 'email', 'realname'],
+                where: {
+                    username: searchInput
+                }
+            })
+        }
 
         if (!user) {
-            Response.error(res, 500, '用户不存在')
+            Response.error(res, 500, '用户不存在!')
             return
         }
         Response.success(res, user.toJSON())
@@ -296,7 +316,7 @@ module.exports = {
     reg,
     logout,
     code,
-    findUserByPhone,
+    findUser,
     changePsd,
     updateUserInfo
 }
