@@ -139,6 +139,35 @@ const addUserToProject = async(req, res) => {
   }
 }
 
+// 移除项目协作者
+const delUserToProject = async(req, res) => {
+  try {
+    req.checkBody('projectId', '项目ID不能为空').notEmpty()
+    req.checkBody('userId', '用户ID不能为空').notEmpty()
+
+    // 检查参数
+    const result = await req.getValidationResult()
+    if (!result.isEmpty()) {
+      Response.error(res, 500, Util.inspect(result.array()))
+      return
+    }
+
+    const projectId = req.body.projectId
+    const userId = req.body.userId
+
+    await ProjectUserModel.destroy({
+      where: {
+        user_id: userId,
+        project_id: projectId
+      }
+    })
+    
+    Response.success(res)
+  } catch (error) {
+    Response.error(res, 500, error)
+  }
+}
+
 // 查看项目详情
 const getProjectInfo = async(req, res) => {
   try {
@@ -324,6 +353,7 @@ module.exports = {
   findProjectListByUser,
   findUserListByProject,
   addUserToProject,
+  delUserToProject,
   getProjectInfo,
   updateProjectInfo,
   addProject,

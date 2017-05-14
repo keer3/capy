@@ -9,6 +9,8 @@ router.get('/findUserByProject', ProjectCtrl.findUserListByProject)
 
 router.post('/addUserToProject', ProjectCtrl.addUserToProject)
 
+router.post('/delUserToProject', ProjectCtrl.delUserToProject)
+
 router.get('/getProjectInfo', ProjectCtrl.getProjectInfo)
 
 router.post('/updateProjectInfo', ProjectCtrl.updateProjectInfo)
