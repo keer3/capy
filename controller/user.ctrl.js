@@ -183,22 +183,22 @@ const findUser = async(req, res) => {
 
         let user = {}
         if (searchType === 'phone') {
-            user = await UserModel.findOne({
-                attributes: ['username', 'phone', 'email', 'realname'],
+            user = await UserModel.findAll({
+                attributes: ['id', 'username', 'phone', 'email', 'realname'],
                 where: {
                     phone: searchInput
                 }
             })
         } else if(searchType === 'email') {
-            user = await UserModel.findOne({
-                attributes: ['username', 'phone', 'email', 'realname'],
+            user = await UserModel.findAll({
+                attributes: ['id', 'username', 'phone', 'email', 'realname'],
                 where: {
                     email: searchInput
                 }
             })
         } else {
-            user = await UserModel.findOne({
-                attributes: ['username', 'phone', 'email', 'realname'],
+            user = await UserModel.findAll({
+                attributes: ['id', 'username', 'phone', 'email', 'realname'],
                 where: {
                     username: searchInput
                 }
@@ -206,10 +206,10 @@ const findUser = async(req, res) => {
         }
 
         if (!user) {
-            Response.error(res, 500, '用户不存在!')
+            Response.error(res, 500, '抱歉，没有找到该用户!')
             return
         }
-        Response.success(res, user.toJSON())
+        Response.success(res, user)
     } catch (error) {
         Response.error(res, 500, error)
     }

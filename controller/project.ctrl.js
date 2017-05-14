@@ -110,6 +110,19 @@ const addUserToProject = async(req, res) => {
     const projectId = req.body.projectId
     const userId = req.body.userId
 
+    // 查看用户是否已加入该项目
+    const exist = await ProjectUserModel.findOne({
+      where: {
+        user_id: userId,
+        project_id: projectId
+      }
+    })
+
+    if (exist) {
+      Response.error(res, 500, '用户已加入该项目！')
+      return
+    }
+
     const projectUser = await ProjectUserModel.create({
       user_id: userId,
       project_id: projectId
