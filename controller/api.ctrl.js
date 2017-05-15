@@ -232,7 +232,9 @@ const getApiDetail = async(req, res) => {
     api.header = apiHeader
 
     const apiParams = await ApiParamsModel.findAll({
-      api_id: apiId
+      where: {
+        api_id: apiId
+      }
     })
     api.params = apiParams
 
