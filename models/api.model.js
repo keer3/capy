@@ -68,6 +68,11 @@ module.exports = function(sequelize, DataTypes) {
 		error_return: {
 			type: DataTypes.TEXT,
 			allowNull: true
+		},
+		remark: {
+			type: DataTypes.STRING(200),
+			allowNull: true,
+			defaultValue: ""
 		}
 	}, {
 		tableName: 'api',
