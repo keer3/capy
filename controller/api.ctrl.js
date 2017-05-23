@@ -13,7 +13,7 @@ const addApi = async(req, res) => {
 
     req.checkBody('groupId', '分组ID不能为空').notEmpty()
     req.checkBody('projectId', '项目ID不能为空').notEmpty()
-    req.checkBody('status', '项目ID不能为空').notEmpty()
+    req.checkBody('status', '状态不能为空').notEmpty()
     req.checkBody('protocol', '请求协议不能为空').notEmpty()
     req.checkBody('type', '请求方式不能为空').notEmpty()
     req.checkBody('url', 'URL不能为空').notEmpty()
@@ -55,14 +55,15 @@ const addApi = async(req, res) => {
       protocol,
       project_id: projectId,
       create_userId: userId,
+      update_userId: userId,
       success_return: successReturn,
-      error_return: errorReturn,
+      error_return: errorReturn
     })
 
     const apiId = api.get('id')
 
     // 添加接口请求头
-    var headerList = JSON.parse(apiHeader)
+    var headerList = apiHeader
     headerList.forEach((header) => {
       header.api_id = apiId
     })
@@ -70,7 +71,7 @@ const addApi = async(req, res) => {
     api.header = headerList
 
     // 添加接口请求参数
-    var paramsList = JSON.parse(apiParams)
+    var paramsList = apiParams
     paramsList.forEach((params) => {
       params.api_id = apiId
       params.value = JSON.stringify(params.value)
@@ -79,7 +80,7 @@ const addApi = async(req, res) => {
     api.params = paramsList
 
     // 添加接口返回结果
-    var returnList = JSON.parse(apiReturn)
+    var returnList = apiReturn
     returnList.forEach((ret) => {
       ret.api_id = apiId
       ret.value = JSON.stringify(ret.value)

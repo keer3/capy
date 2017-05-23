@@ -4,18 +4,18 @@ exports.success = (res, data = {}, message = 'ok') => {
         status: 200,
         message,
         data
-    });
-};
+    })
+}
 
 // 失败
 exports.error = (res, status, error, data = {}) => {
-    let message = '';
+    let message = ''
 
-    message = typeof error === 'string' ? error : error.message;
+    message = typeof error === 'string' ? error : error.message
 
     res.send({
         status,
         message,
         data
-    });
-};
+    })
+}
