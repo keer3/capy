@@ -17,4 +17,6 @@ router.post('/changePsd', UserCtrl.changePsd)
 
 router.post('/updateUserInfo', UserCtrl.updateUserInfo)
 
+router.post('/forgetPsd', UserCtrl.forgetPsd)
+
 module.exports = router

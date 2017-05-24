@@ -161,6 +161,8 @@ const code = async(req, res) => {
             time: new Moment()
         }
 
+        console.log('code', code)
+
         Response.success(res)
     } catch (error) {
         Response.error(res, 500, error)
@@ -313,6 +315,61 @@ const updateUserInfo = async(req, res) => {
     }
 }
 
+// 忘记密码
+const forgetPsd = async(req, res) => {
+    try {
+        req.checkBody('phone', '手机号不能为空').notEmpty()
+        req.checkBody('newPassword', '新密码不能为空').notEmpty()
+        req.checkBody('code', '验证码不能为空').notEmpty()
+        // 检查参数
+        var result = await req.getValidationResult()
+        if (!result.isEmpty()) {
+            Response.error(res, 500, Util.inspect(result.array()))
+            return
+        }
+
+        const {
+            phone,
+            newPassword,
+            code
+        } = req.body
+
+        // 判断用户是否存在
+        const userExist = await UserModel.find({
+            where: {
+                phone
+            }
+        })
+        if (!userExist) {
+            Response.error(res, 500, '用户不存在')
+            return
+        }
+
+        // 判断验证码是否失效
+        const codeSession = req.session.codeSession
+        if (!new Moment().isBetween(codeSession.time, new Moment(codeSession.time).add(30, 'minutes')) || code !== codeSession.code) {
+            Response.error(res, 500, '验证码错误')
+            return
+        }
+
+        result = UserModel.update({
+            password: newPassword
+        }, {
+            where: {
+                phone
+            }
+        })
+
+        if (!result) {
+            Response.error(res, 500, '修改失败，请重试')
+            return
+        }
+        Response.success(res)
+    } catch (error) {
+        Response.error(res, 500, error)
+    }
+}
+
 module.exports = {
     login,
     reg,
@@ -320,5 +377,6 @@ module.exports = {
     code,
     findUser,
     changePsd,
-    updateUserInfo
+    updateUserInfo,
+    forgetPsd
 }
