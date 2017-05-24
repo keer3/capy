@@ -329,14 +329,14 @@ const updateApi = async(req, res) => {
     })
 
     // 添加接口请求头
-    var headerList = JSON.parse(apiHeader)
+    var headerList = apiHeader
     headerList.forEach((header) => {
       header.api_id = apiId
     })
     await ApiHeaderModel.bulkCreate(headerList)
 
     // 添加接口请求参数
-    var paramsList = JSON.parse(apiParams)
+    var paramsList = apiParams
     paramsList.forEach((params) => {
       params.api_id = apiId
       params.value = JSON.stringify(params.value)
@@ -344,7 +344,7 @@ const updateApi = async(req, res) => {
     await ApiParamsModel.bulkCreate(paramsList)
 
     // 添加接口返回结果
-    var returnList = JSON.parse(apiReturn)
+    var returnList = apiReturn
     returnList.forEach((ret) => {
       ret.api_id = apiId
       ret.value = JSON.stringify(ret.value)

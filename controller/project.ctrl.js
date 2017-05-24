@@ -258,11 +258,17 @@ const updateProjectInfo = async(req, res) => {
       }
     })
 
+    const project = await ProjectModel.findOne({
+      where: {
+        id: projectId
+      }
+    })
+
     if (!result) {
       Response.error(res, 500, '修改失败，请重试')
       return
     }
-    Response.success(res)
+    Response.success(res, project)
   } catch (error) {
     Response.error(res, 500, error)
   }

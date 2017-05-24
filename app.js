@@ -8,20 +8,26 @@ const expressValidator = require('express-validator')
 const app = express()
 const routes = require('./router')
 const session = require('express-session')
+const FileStore = require('session-file-store')(session)
 
 app.use(expressValidator()) // 验证规则中间件
 
-app.all('*', function(req, res, next) {  
-    res.header("Access-Control-Allow-Origin", "*");  
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");  
-    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");  
-    res.header("X-Powered-By",' 3.2.1')  
-    res.header("Content-Type", "application/json;charset=utf-8");  
-    next();  
-});  
+app.all('*', function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", req.headers.origin)
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS")
+  res.header('Access-Control-Allow-Credentials', 'true')
+  res.header("X-Powered-By", '3.2.1')
+  res.header("Content-Type", "application/json;charset=utf-8")
+  next()
+})
 
 app.use(session({
-  secret: 'CAPY PROJECT',
+  name: 'capy',
+  secret: 'capy',
+  store: new FileStore({
+    path: '../capySession'
+  }),
   cookie: {
     maxAge: 60 * 1000 * 30,
     rolling: true

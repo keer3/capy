@@ -72,6 +72,7 @@ const reg = async(req, res) => {
         const phone = req.body.phone
         const password = req.body.password
         const code = req.body.code
+        const username = req.body.name
 
         // 判断用户是否存在
         const userExist = await UserModel.find({
@@ -86,7 +87,7 @@ const reg = async(req, res) => {
 
         // 判断验证码是否失效
         const codeSession = req.session.codeSession
-        if (!new Moment().isBetween(codeSession.time, new Moment(codeSession.time).add(30, 'minutes')) || code !== codeSession.code) {
+        if (!codeSession || !new Moment().isBetween(codeSession.time, new Moment(codeSession.time).add(30, 'minutes')) || code !== codeSession.code) {
             Response.error(res, 500, '验证码错误')
             return
         }
@@ -94,7 +95,8 @@ const reg = async(req, res) => {
         // 添加用户
         result = await UserModel.create({
             phone,
-            password
+            password,
+            username
         })
 
         if (result) {
